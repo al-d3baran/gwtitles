@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Dimitris “Aldebaran” N.">
+        <meta name="description" content="Track your progress and maxed titles in Guild Wars with this simple tool.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Guild Wars Titles Progress</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="scripts/css/styles.css">
+        <meta property="og:title" content="Guild Wars Titles Progress">
+        <meta property="og:description" content="Track your progress and maxed titles in Guild Wars.">
+        <meta property="og:image" content="https://example.com/images/opengraph.jpg">
+        <meta property="og:url" content="https://example.com">
+        <meta property="og:type" content="website">
+    </head>
+    <body>
+        <header>
+            <div>
+                <h1>Guild Wars Titles Progress</h1>
+            </div>
+        </header>
+        <nav aria-label="Title selection">
+            <div>
+                <select id="titles" aria-label="Select a title to add">
+                    <option disabled>Insert title</option>
+                    <optgroup label="Affiliation">
+                        <option value="asura">Asura</option>
+                        <option value="deldrimor">Deldrimor</option>
+                        <option value="ebon_vanguard">Ebon Vanguard</option>
+                        <option value="lightbringer">Lightbringer</option>
+                        <option value="norn">Norn</option>
+                        <option value="sunspear">Sunspear</option>
+                        <option value="kurzick">Kurzick</option>
+                        <option value="luxon">Luxon</option>
+                    </optgroup>
+                    <optgroup label="Tyria">
+                        <option value="cartographer_tyria">Cartographer</option>
+                        <option value="protector_tyria">Protector</option>
+                        <option value="guardian_tyria">Guardian</option>
+                        <option value="skill_hunter_tyria">Skill Hunter</option>
+                        <option value="vanquisher_tyria">Vanquisher</option>
+                    </optgroup>
+                    <optgroup label="Cantha">
+                        <option value="cartographer_cantha">Cartographer</option>
+                        <option value="protector_cantha">Protector</option>
+                        <option value="guardian_cantha">Guardian</option>
+                        <option value="skill_hunter_cantha">Skill Hunter</option>
+                        <option value="vanquisher_cantha">Vanquisher</option>
+                    </optgroup>
+                    <optgroup label="Elona">
+                        <option value="cartographer_elona">Cartographer</option>
+                        <option value="protector_elona">Protector</option>
+                        <option value="guardian_elona">Guardian</option>
+                        <option value="skill_hunter_elona">Skill Hunter</option>
+                        <option value="vanquisher_elona">Vanquisher</option>
+                    </optgroup>
+                    <optgroup label="Eye of the North">
+                        <option value="master_of_the_north">Master of the North</option>
+                    </optgroup>
+                    <optgroup label="Experience">
+                        <option value="defender_of_ascalon">Legendary Defender of Ascalon</option>
+                        <option value="survivor">Survivor</option>
+                    </optgroup>
+                    <optgroup label="Activities">
+                        <option value="drunkard">Drunkard</option>
+                        <option value="party_animal">Party Animal</option>
+                        <option value="sweet_tooth">Sweet Tooth</option>
+                        <option value="treasure_hunter">Treasure Hunter</option>
+                        <option value="wisdom">Wisdom</option>
+                        <option value="lucky">Lucky</option>
+                        <option value="unlucky">Unlucky</option>
+                        <option value="zaishen">Zaishen</option>
+                    </optgroup>
+                    <optgroup label="Player vs Player">
+                        <option value="champion">Champion</option>
+                        <option value="codex">Codex</option>
+                        <option value="commander">Commander</option>
+                        <option value="gladiator">Gladiator</option>
+                        <option value="hero">Hero</option>
+                        <option value="gamer">Gamer</option>
+                    </optgroup>
+                </select>
+            </div>
+        </nav>
+        <main>
+            <div>
+                <section aria-labelledby="progress-heading">
+                    <h2 id="progress-heading">Progress List</h2>
+                    <ul id="progress" aria-live="polite"></ul>
+                </section>
+                <section aria-labelledby="maxed-heading">
+                    <h2 id="maxed-heading">Current maxed rank:</h2>
+                    <a id="maxed" href="https://wiki.guildwars.com/wiki/Kind_of_a_Big_Deal" target="_blank" rel="noopener" aria-label="Current maxed rank (opens in new tab)"></a>
+                </section>
+                <section aria-labelledby="share-heading">
+                    <h2 id="share-heading">Share progress link:</h2>
+                    <a id="link" aria-live="polite"></a>
+                </section>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 - Website developed by al_d3baran</p>
+            <p>Background image and all Guild Wars title names are the property of <a href="https://www.arena.net/" target="_blank" rel="noopener">ArenaNet</a>.</p>
+        </footer>
+        <script src="scripts/js/ranks.js"></script>
+        <script src="scripts/js/ui.js"></script>
+    </body>
+</html>
