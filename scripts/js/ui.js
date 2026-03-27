@@ -1,19 +1,23 @@
+// UI elements
 const UITitles = document.getElementById('titles');
 const UIProgress = document.getElementById('progress');
 const UIMaxed = document.getElementById('maxed');
 const UILink = document.getElementById('link');
 
+// Active bonus titles currently displayed
 const activeTitles = new Set();
 const bonusTitles = Object.keys(ranks.bonus);
 const pageTitle = document.title;
 
+// Bit packing configuration for URL hash encoding
 const indexBits = 6;
 const rankBits = 8;
 const packBits = indexBits + rankBits;
 const packSize = 1 << packBits;
 const rankMask = (1 << rankBits) - 1;
 
-function updateTitle(item) {
+// Update title text and button states for a list item
+function updateListItemTitle(item) {
     if (!item._link)
         return;
 
@@ -42,7 +46,8 @@ function updateTitle(item) {
     item._link.textContent = `${title} (${rank}/${max})`;
 }
 
-function removeBonusTitle(title) {
+// Remove a bonus title from the list
+function removeBonusProgressTitle(title) {
     if (!activeTitles.has(title.name))
         return;
 
@@ -55,7 +60,8 @@ function removeBonusTitle(title) {
         }
 }
 
-function addBonusTitle(title) {
+// Add a bonus title to the list
+function addBonusProgressTitle(title) {
     if (activeTitles.has(title.name))
         return;
 
@@ -79,7 +85,8 @@ function addBonusTitle(title) {
     UIProgress.appendChild(item);
 }
 
-function getMaxedTitle() {
+// Compute current "Kind of a Big Deal" progress
+function computeMaxedTitle() {
     let total = 0;
 
     for (const child of UIProgress.children) {
@@ -103,7 +110,8 @@ function getMaxedTitle() {
     return `${title} (${total}/${ranks.maxed.total})`;
 }
 
-function updateList() {
+// Recalculate bonus titles, maxed count and share link
+function recalculateProgress() {
     const bonus = ranks.bonus;
     const count = Object.fromEntries(bonusTitles.map(k => [k, 0]));
 
@@ -130,18 +138,19 @@ function updateList() {
         const title = bonus[key];
 
         if (count[key] === title.requirements.length)
-            addBonusTitle(title);
+            addBonusProgressTitle(title);
         else
-            removeBonusTitle(title);
+            removeBonusProgressTitle(title);
     }
 
     UITitles.selectedIndex = 0;
-    UIMaxed.textContent = getMaxedTitle();
+    UIMaxed.textContent = computeMaxedTitle();
 
-    setLink();
+    updateShareLink();
 }
 
-function createRankButton(item, type) {
+// Create increase/decrease rank button
+function createRankAdjustButton(item, type) {
     const button = document.createElement('button');
 
     button.type = 'button';
@@ -161,14 +170,15 @@ function createRankButton(item, type) {
 
         item.dataset.rank = rank;
 
-        updateTitle(item);
-        updateList();
+        updateListItemTitle(item);
+        recalculateProgress();
     });
 
     return button;
 }
 
-function createValueButton(item, type) {
+// Create minimize/maximize rank button
+function createRankSetButton(item, type) {
     const button = document.createElement('button');
 
     button.type = 'button';
@@ -178,13 +188,14 @@ function createValueButton(item, type) {
     button.addEventListener('click', () => {
         item.dataset.rank = type === 'minimize' ? 1 : Number(item.dataset.max);
 
-        updateTitle(item);
-        updateList();
+        updateListItemTitle(item);
+        recalculateProgress();
     });
 
     return button;
 }
 
+// Create remove item button
 function createRemoveButton(item) {
     const button = document.createElement('button');
 
@@ -205,13 +216,14 @@ function createRemoveButton(item) {
             option.disabled = false;
 
         item.remove();
-        updateList();
+        recalculateProgress();
     });
 
     return button;
 }
 
-function createItemLink(item) {
+// Create anchor link for a title item
+function createTitleLink(item) {
     const span = document.createElement('span');
     const link = document.createElement('a');
     const rank = Number(item.dataset.rank);
@@ -230,7 +242,8 @@ function createItemLink(item) {
     return span;
 }
 
-function createListItem(option, index, rank = 1) {
+// Create a progress list item
+function createProgressItem(option, index, rank = 1) {
     option.disabled = true;
 
     const item = document.createElement('li');
@@ -243,11 +256,11 @@ function createListItem(option, index, rank = 1) {
     item.dataset.rank = rank;
     item.dataset.max = !data.titles ? data.max : data.titles.length;
 
-    const link = createItemLink(item);
-    const increase = createRankButton(item, 'increase');
-    const decrease = createRankButton(item, 'decrease');
-    const maximize = createValueButton(item, 'maximize');
-    const minimize = createValueButton(item, 'minimize');
+    const link = createTitleLink(item);
+    const increase = createRankAdjustButton(item, 'increase');
+    const decrease = createRankAdjustButton(item, 'decrease');
+    const maximize = createRankSetButton(item, 'maximize');
+    const minimize = createRankSetButton(item, 'minimize');
     const remove = createRemoveButton(item);
 
     item.appendChild(link);
@@ -263,7 +276,8 @@ function createListItem(option, index, rank = 1) {
     return item;
 }
 
-function setHash() {
+// Encode progress state into URL hash
+function encodeStateToHash() {
     const bytes = [];
     let buffer = 0;
     let bits = 0;
@@ -286,6 +300,7 @@ function setHash() {
             const byte = Math.floor(buffer / (2 ** bits)) & 0xFF;
 
             bytes.push(byte);
+            
             buffer = buffer % (2 ** bits);
         }
     }
@@ -298,7 +313,8 @@ function setHash() {
     return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
-function getHash() {
+// Decode progress state from URL hash
+function decodeStateFromHash() {
     const encoded = window.location.hash.slice(1);
     const data = [];
 
@@ -332,8 +348,9 @@ function getHash() {
     return data;
 }
 
-function setLink() {
-    const hash = setHash();
+// Update shareable link
+function updateShareLink() {
+    const hash = encodeStateToHash();
     const base = location.href.split('#')[0];
     const url = hash ? `${base}#${hash}` : base;
 
@@ -343,8 +360,9 @@ function setLink() {
     history.replaceState(null, '', url);
 }
 
-function initialize() {
-    const items = getHash();
+// Initialize UI from URL hash
+function initializeFromHash() {
+    const items = decodeStateFromHash();
 
     items.forEach(data => {
         const option = UITitles.options[data.index];
@@ -352,16 +370,17 @@ function initialize() {
         if (!option)
             return;
 
-        const item = createListItem(option, data.index, data.rank);
-        updateTitle(item);
+        const item = createProgressItem(option, data.index, data.rank);
+        updateListItemTitle(item);
     });
 
-    updateList();
+    recalculateProgress();
 
     UITitles.selectedIndex = 0;
-    UIMaxed.textContent = getMaxedTitle();
+    UIMaxed.textContent = computeMaxedTitle();
 }
 
+// Title selection handler
 UITitles.addEventListener('change', () => {
     const index = UITitles.selectedIndex;
     const option = UITitles.options[index];
@@ -369,8 +388,9 @@ UITitles.addEventListener('change', () => {
     if (!option || option.disabled)
         return;
 
-    createListItem(option, index);
-    updateList();
+    createProgressItem(option, index);
+    recalculateProgress();
 });
 
-initialize();
+// initialize
+initializeFromHash();
