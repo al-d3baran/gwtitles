@@ -5,6 +5,7 @@ const UILink = document.getElementById('link');
 
 const activeTitles = new Set();
 const bonusTitles = Object.keys(ranks.bonus);
+const pageTitle = document.title;
 
 const indexBits = 6;
 const rankBits = 8;
@@ -96,8 +97,10 @@ function getMaxedTitle() {
     }
 
     const index = Math.min(Math.floor(total / ranks.maxed.offset), ranks.maxed.titles.length - 1);
+    const title = ranks.maxed.titles[index];
 
-    return `${ranks.maxed.titles[index]} (${total}/${ranks.maxed.total})`;
+    document.title = `${pageTitle} - ${title}`;
+    return `${title} (${total}/${ranks.maxed.total})`;
 }
 
 function updateList() {
@@ -249,8 +252,8 @@ function createListItem(option, index, rank = 1) {
 
     item.appendChild(link);
     item.appendChild(increase);
-    item.appendChild(decrease);
     item.appendChild(maximize);
+    item.appendChild(decrease);
     item.appendChild(minimize);
     item.appendChild(remove);
     UIProgress.appendChild(item);

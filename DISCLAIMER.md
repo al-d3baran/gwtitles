@@ -1,0 +1,2 @@
+gwtitles uses icons and images that are © 2010-2026 ArenaNet, LLC. and is in no way associated with ArenaNet, NCSOFT Corporation or the Guild Wars trademark.
+© ArenaNet LLC. All rights reserved. NCSOFT, ArenaNet, Guild Wars, Guild Wars 2 and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT Corporation.
