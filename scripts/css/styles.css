@@ -184,23 +184,23 @@ button.disabled {
 }
 
 button.increase {
-    background-image: url(../svg/increase.svg);
+    background-image: url("../svg/increase.svg");
 }
 
 button.decrease {
-    background-image: url(../svg/decrease.svg);
+    background-image: url("../svg/decrease.svg");
 }
 
 button.minimize {
-    background-image: url(../svg/minimize.svg);
+    background-image: url("../svg/minimize.svg");
 }
 
 button.maximize {
-    background-image: url(../svg/maximize.svg);
+    background-image: url("../svg/maximize.svg");
 }
 
 button.remove {
-    background-image: url(../svg/remove.svg);
+    background-image: url("../svg/remove.svg");
 }
 
 footer {
@@ -217,4 +217,108 @@ footer p {
 
 footer a {
     font-size: .7rem;
+}
+
+@media (max-width: 1024px) {
+    div {
+        width: 100%;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        word-spacing: 4px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    section a {
+        display: block;
+        word-break: break-all;
+        text-align: justify;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
+
+    div {
+        width: 100%;
+        padding: 8px;
+    }
+
+    header {
+        padding: 16px 0;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+        word-spacing: 2px;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    select {
+        font-size: .9rem;
+        padding: 10px;
+    }
+
+    section {
+        margin: 16px 0;
+        padding: 10px;
+    }
+
+    li {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px;
+    }
+
+    li span {
+        flex: 100%;
+        margin-bottom: 4px;
+    }
+
+    button {
+        width: 28px;
+        height: 28px;
+        margin-left: 4px;
+    }
+
+    footer p {
+        font-size: .7rem;
+    }
+
+    footer a {
+        font-size: .75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    li {
+        padding: 8px;
+    }
+
+    button {
+        width: 26px;
+        height: 26px;
+    }
+
+    select {
+        padding: 8px;
+    }
 }
